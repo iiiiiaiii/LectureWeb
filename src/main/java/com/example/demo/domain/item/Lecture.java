@@ -1,27 +1,48 @@
 package com.example.demo.domain.item;
 
 import com.example.demo.domain.member.Lecturer;
+import com.example.demo.domain.member.Student;
 import jakarta.persistence.*;
 import lombok.Getter;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static jakarta.persistence.FetchType.LAZY;
 
 @Entity
 @Getter
 public class Lecture extends Item {
+    @Id
+    @GeneratedValue
+    @Column(name="lecture_id")
+    private Long id;
 
-    @Override
-    @Column(name="Lecture_id")
-    public Long getId() {
-        return super.getId(); // 부모 클래스의 getId() 메서드 호출
-    }
 
     private int price;
 
     private String name;
 
-    @JoinColumn (name="lectures")
+    @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "student_id")
+    private Student student;
+
+
+    @ManyToOne
+    @JoinColumn(name = "lectures")
     private Lecturer lecturer;
 
     @OneToMany(mappedBy = "lecture")
-    private Book book;
+    private List<Book> books = new ArrayList<>();
 
+    protected Lecture() {
+    }
+
+    public Lecture(int price, String name, Student student, Lecturer lecturer, List<Book> books) {
+        this.price = price;
+        this.name = name;
+        this.student = student;
+        this.lecturer = lecturer;
+        this.books = books;
+    }
 }

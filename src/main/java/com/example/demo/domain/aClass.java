@@ -1,6 +1,6 @@
 package com.example.demo.domain;
 
-public enum Class {
+public enum aClass {
     국어,
     수학,
     영어,

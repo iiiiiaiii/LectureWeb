@@ -1,28 +1,30 @@
 package com.example.demo.domain.item;
 
 import com.example.demo.domain.exception.NotEnoughException;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
+import com.example.demo.domain.member.Student;
+import jakarta.persistence.*;
 import lombok.Getter;
 
 @Entity
 @Getter
 public class Book extends Item {
-
-    @Override
-    @Column(name="Book_id")
-    public Long getId() {
-        return super.getId(); // 부모 클래스의 getId() 메서드 호출
-    }
+    @Id
+    @GeneratedValue
+    @Column(name="book_id")
+    private Long id;
 
     private int stockQuantity;
 
-    @JoinColumn(name="book")
+    @ManyToOne
+    @JoinColumn(name="lecture_id")
     private Lecture lecture;
 
-    public void addStock(int quantity){
-        this.stockQuantity+=quantity;
+    @ManyToOne
+    @JoinColumn(name = "student_id")
+    private Student student;
+
+    public void addStock(int quantity) {
+        this.stockQuantity += quantity;
     }
     public void removeStock(int quantity){
         int restStock = this.stockQuantity - quantity;
@@ -30,5 +32,14 @@ public class Book extends Item {
             throw new NotEnoughException("need more stock");
         }
         this.stockQuantity=restStock;
+    }
+
+    protected Book() {
+    }
+
+    public Book(int stockQuantity, Lecture lecture, Student student) {
+        this.stockQuantity = stockQuantity;
+        this.lecture = lecture;
+        this.student = student;
     }
 }

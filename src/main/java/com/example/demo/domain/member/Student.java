@@ -15,6 +15,11 @@ import java.util.List;
 @Getter
 public class Student extends Member {
 
+    @Id
+    @GeneratedValue
+    @Column(name="student_id")
+    private Long id;
+
     @Embedded
     private Address address;
 
@@ -30,7 +35,7 @@ public class Student extends Member {
     private final List<Book> books = new ArrayList<>();
 
 
-    @OneToMany(mappedBy = "orders")
+    @OneToMany(mappedBy = "student")
     private List<Order> orders = new ArrayList<>();
 
     protected Student() {

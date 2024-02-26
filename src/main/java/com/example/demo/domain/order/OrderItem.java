@@ -7,29 +7,32 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 
+import static jakarta.persistence.FetchType.LAZY;
+
 @Entity
 @Getter
 public class OrderItem {
     @Id
     @GeneratedValue
-    @Column(name = "orderBook_id")
+    @Column(name = "orderItem_id")
     private Long id;
 
     @JsonIgnore
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "Book_id")
+    @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "book_id")
     private Book book;
 
     @JsonIgnore
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "Lecture_id")
+    @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "lecture_id")
     private Lecture lecture;
 
-
     @JsonIgnore
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "order_id")
-    private Order orders;
+    private Order order;
+
+
     private int price;
     private int count;
 

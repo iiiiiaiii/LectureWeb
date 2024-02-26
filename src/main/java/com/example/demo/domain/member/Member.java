@@ -6,17 +6,10 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import lombok.Getter;
 
-@Entity
 @Getter
 public abstract class Member {
     private int age;
     private String name;
-
-    @Id
-    @GeneratedValue
-    @Column(name="회원번호")
-    private Long id;
-
     private int password;
     private String LoginId;
 

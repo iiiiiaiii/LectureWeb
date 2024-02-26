@@ -12,13 +12,13 @@ import java.util.List;
 public class Order {
     @Id
     @GeneratedValue
+    @Column(name="order_id")
     private Long id;
 
-
-
-    @OneToMany(mappedBy = "orderItems")
+    @OneToMany(mappedBy = "order")
     private List<OrderItem> orderItems = new ArrayList<>();
 
+    @ManyToOne
     @JoinColumn(name="student")
     private Student student;
 
