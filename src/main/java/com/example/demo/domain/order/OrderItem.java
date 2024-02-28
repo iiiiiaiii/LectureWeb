@@ -11,18 +11,17 @@ import static jakarta.persistence.FetchType.LAZY;
 
 @Entity
 @Getter
+@Table(name="order_item")
 public class OrderItem {
     @Id
     @GeneratedValue
     @Column(name = "orderItem_id")
     private Long id;
 
-    @JsonIgnore
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "book_id")
     private Book book;
 
-    @JsonIgnore
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "lecture_id")
     private Lecture lecture;
@@ -30,18 +29,18 @@ public class OrderItem {
     @JsonIgnore
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "order_id")
-    private Order order;
+    private OrderBase orderBase;
 
 
     private int price;
     private int count;
 
-    public OrderItem() {
+    protected OrderItem() {
     }
     public static OrderItem createOrderLecture(Lecture lecture, int orderPrice) {
         OrderItem orderItem = new OrderItem();
         orderItem.price=orderPrice;
-        orderItem.lecture=lecture;
+        //orderItem.lecture=lecture;
         return orderItem;
     }
 
@@ -50,7 +49,7 @@ public class OrderItem {
         OrderItem orderItem = new OrderItem();
         orderItem.price=orderPrice;
         orderItem.count=count;
-        orderItem.book=book;
+        //orderItem.book=book;
         return orderItem;
     }
 

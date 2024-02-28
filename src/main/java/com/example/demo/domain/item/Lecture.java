@@ -2,6 +2,7 @@ package com.example.demo.domain.item;
 
 import com.example.demo.domain.member.Lecturer;
 import com.example.demo.domain.member.Student;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 
@@ -24,12 +25,7 @@ public class Lecture extends Item {
     private String name;
 
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "student_id")
-    private Student student;
-
-
-    @ManyToOne
-    @JoinColumn(name = "lectures")
+    @JoinColumn(name = "lecturer_id")
     private Lecturer lecturer;
 
     @OneToMany(mappedBy = "lecture")
@@ -38,11 +34,9 @@ public class Lecture extends Item {
     protected Lecture() {
     }
 
-    public Lecture(int price, String name, Student student, Lecturer lecturer, List<Book> books) {
+    public Lecture(int price, String name, Lecturer lecturer) {
         this.price = price;
         this.name = name;
-        this.student = student;
         this.lecturer = lecturer;
-        this.books = books;
     }
 }

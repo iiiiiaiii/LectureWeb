@@ -7,23 +7,23 @@ import lombok.Getter;
 import java.util.ArrayList;
 import java.util.List;
 
+import static jakarta.persistence.FetchType.LAZY;
+
 @Entity
 @Getter
-public class Order {
+public class OrderBase {
     @Id
     @GeneratedValue
     @Column(name="order_id")
     private Long id;
 
-    @OneToMany(mappedBy = "order")
+    @OneToMany(mappedBy = "orderBase")
     private List<OrderItem> orderItems = new ArrayList<>();
 
-    @ManyToOne
-    @JoinColumn(name="student")
+    @ManyToOne(fetch = LAZY)
+    @JoinColumn(name="student_id")
     private Student student;
 
-    public void setMember(Student student) {
-        this.student = student;
-        student.getOrders().add(this);
+    protected OrderBase() {
     }
 }

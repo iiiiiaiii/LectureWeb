@@ -3,6 +3,8 @@ package com.example.demo.domain.member;
 import jakarta.persistence.*;
 import lombok.Getter;
 
+import static jakarta.persistence.FetchType.*;
+
 @Entity
 @Getter
 public class Parent extends Member{
@@ -12,7 +14,8 @@ public class Parent extends Member{
     private Long id;
 
 
-    @OneToOne
+    @OneToOne(fetch = LAZY)
+    @JoinColumn(name="student_id")
     private Student student;
 
     protected Parent() {

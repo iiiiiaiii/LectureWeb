@@ -3,8 +3,7 @@ package com.example.demo.domain.member;
 import com.example.demo.domain.Address;
 import com.example.demo.domain.item.Book;
 import com.example.demo.domain.item.Lecture;
-import com.example.demo.domain.order.Order;
-import com.example.demo.domain.order.OrderStatus;
+import com.example.demo.domain.order.OrderBase;
 import jakarta.persistence.*;
 import lombok.Getter;
 
@@ -28,25 +27,36 @@ public class Student extends Member {
     @Enumerated(EnumType.STRING)
     private Grade grade;
 
-    @OneToMany(mappedBy = "student")
-    private final List<Lecture> lectures = new ArrayList<>();
+    @OneToOne(mappedBy = "student")
+    private Parent parent;
+
+    @OneToMany
+    private List<Lecture> lectures = new ArrayList<>();
+
+    @OneToMany
+    private List<Book> books = new ArrayList<>();
+
 
     @OneToMany(mappedBy = "student")
-    private final List<Book> books = new ArrayList<>();
-
-
-    @OneToMany(mappedBy = "student")
-    private List<Order> orders = new ArrayList<>();
+    private List<OrderBase> orderBases = new ArrayList<>();
 
     protected Student() {
     }
 
-    public Student(int age, String name, int password, String loginId, Address address, int pay, Grade grade, List<Order> orders) {
+    public Student(int age, String name, int password, String loginId, Address address, Grade grade,Parent parent) {
         super(age, name, password, loginId);
         this.address = address;
-        this.pay = pay;
         this.grade = grade;
-        this.orders = orders;
+        this.parent=parent;
+        this.pay=0;
+    }
+
+    public void addLecture(Lecture lecture) {
+        lectures.add(lecture);
+    }
+
+    public void addBook(Book book) {
+        books.add(book);
     }
 
     public void setPay(int pay) {

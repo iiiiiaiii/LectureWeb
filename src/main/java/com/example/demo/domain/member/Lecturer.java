@@ -17,7 +17,7 @@ public class Lecturer extends Member {
     private Long id;
 
     @OneToMany(mappedBy = "lecturer")
-    private final List<Lecture> lectures = new ArrayList<>();
+    private List<Lecture> lectures = new ArrayList<>();
 
     @Enumerated(EnumType.STRING)
     private aClass aClass;
@@ -28,6 +28,6 @@ public class Lecturer extends Member {
     public Lecturer(int age, String name, int password, String loginId,aClass aClass) {
         super(age, name, password, loginId);
         this.aClass = aClass;
-
     }
+
 }

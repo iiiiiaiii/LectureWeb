@@ -5,6 +5,8 @@ import com.example.demo.domain.member.Student;
 import jakarta.persistence.*;
 import lombok.Getter;
 
+import static jakarta.persistence.FetchType.LAZY;
+
 @Entity
 @Getter
 public class Book extends Item {
@@ -13,15 +15,13 @@ public class Book extends Item {
     @Column(name="book_id")
     private Long id;
 
+    private int price;
+
     private int stockQuantity;
 
-    @ManyToOne
+    @ManyToOne(fetch = LAZY)
     @JoinColumn(name="lecture_id")
     private Lecture lecture;
-
-    @ManyToOne
-    @JoinColumn(name = "student_id")
-    private Student student;
 
     public void addStock(int quantity) {
         this.stockQuantity += quantity;
@@ -37,9 +37,8 @@ public class Book extends Item {
     protected Book() {
     }
 
-    public Book(int stockQuantity, Lecture lecture, Student student) {
+    public Book(int stockQuantity, Lecture lecture) {
         this.stockQuantity = stockQuantity;
         this.lecture = lecture;
-        this.student = student;
     }
 }
