@@ -22,4 +22,20 @@ public abstract class Member {
         this.password = password;
         LoginId = loginId;
     }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setPassword(int password) {
+        this.password = password;
+    }
+
+    public void setLoginId(String loginId) {
+        LoginId = loginId;
+    }
 }

@@ -17,14 +17,25 @@ public class MemberRepository {
         em.persist(member);
     }
 
-    public Member findOne(Long id) {
-        return em.find(Member.class, id);
+    public <T> T findOne(Class<T> entityClass, Long id) {
+        return em.find(entityClass, id);
     }
 
-    public List<Member> findByName(String name) {
-        return em.createQuery("select m from Member m where m.name = name",
-                        Member.class)
+
+    public List<?> findByName(Class<?> entityClass,String name) {
+        return em.createQuery("select m from "+entityClass.getSimpleName() +" m where m.name = :name",
+                        entityClass)
                 .setParameter("name", name)
                 .getResultList();
+    }
+
+    public List<?> findAll(Class<?> entityClass) {
+        return em.createQuery("select i from " + entityClass.getSimpleName() + " i", entityClass)
+                .getResultList();
+    }
+
+    public void delete(Class<?> entityClass,Long id) {
+        Object member = findOne(entityClass, id);
+        em.remove(member);
     }
 }

@@ -15,8 +15,6 @@ public class Book extends Item {
     @Column(name="book_id")
     private Long id;
 
-    private int price;
-
     private int stockQuantity;
 
     @ManyToOne(fetch = LAZY)
@@ -40,5 +38,9 @@ public class Book extends Item {
     public Book(int stockQuantity, Lecture lecture) {
         this.stockQuantity = stockQuantity;
         this.lecture = lecture;
+    }
+
+    public void setStockQuantity(int stockQuantity) {
+        this.stockQuantity = stockQuantity;
     }
 }

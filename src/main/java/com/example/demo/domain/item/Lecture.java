@@ -18,12 +18,6 @@ public class Lecture extends Item {
     @GeneratedValue
     @Column(name="lecture_id")
     private Long id;
-
-
-    private int price;
-
-    private String name;
-
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "lecturer_id")
     private Lecturer lecturer;
@@ -35,8 +29,10 @@ public class Lecture extends Item {
     }
 
     public Lecture(int price, String name, Lecturer lecturer) {
-        this.price = price;
-        this.name = name;
+        super(price,name);
         this.lecturer = lecturer;
+
     }
+
+
 }

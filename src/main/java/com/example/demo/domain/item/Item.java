@@ -10,8 +10,21 @@ import lombok.Getter;
 @Getter
 public abstract class Item {
     private int price;
-    private Long id;
     private String name;
 
+    public Item(int price, String name) {
+        this.price=price;
+        this.name=name;
+    }
 
+    protected Item() {
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
+    }
+
+    public void setName(String name) {
+        this.name=name;
+    }
 }
