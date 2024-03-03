@@ -1,17 +1,23 @@
 package com.example.demo.domain.item;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 
 @Getter
+@Entity
+@NoArgsConstructor
 public abstract class Item {
-    private int price;
+    @Id
+    @GeneratedValue
+    @Column(name="item_id")
     private Long id;
+    private int price;
     private String name;
 
-
+    public Item(int price, String name) {
+        this.price = price;
+        this.name = name;
+    }
 }

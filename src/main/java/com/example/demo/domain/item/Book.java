@@ -4,19 +4,14 @@ import com.example.demo.domain.exception.NotEnoughException;
 import com.example.demo.domain.member.Student;
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import static jakarta.persistence.FetchType.LAZY;
 
 @Entity
 @Getter
+@NoArgsConstructor
 public class Book extends Item {
-    @Id
-    @GeneratedValue
-    @Column(name="book_id")
-    private Long id;
-
-    private int price;
-
     private int stockQuantity;
 
     @ManyToOne(fetch = LAZY)
@@ -34,10 +29,8 @@ public class Book extends Item {
         this.stockQuantity=restStock;
     }
 
-    protected Book() {
-    }
-
-    public Book(int stockQuantity, Lecture lecture) {
+    public Book( int price, String name, int stockQuantity, Lecture lecture) {
+        super(price, name);
         this.stockQuantity = stockQuantity;
         this.lecture = lecture;
     }

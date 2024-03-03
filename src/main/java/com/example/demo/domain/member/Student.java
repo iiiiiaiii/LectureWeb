@@ -6,22 +6,18 @@ import com.example.demo.domain.item.Lecture;
 import com.example.demo.domain.order.OrderBase;
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Getter
+@NoArgsConstructor
+
 public class Student extends Member {
-
-    @Id
-    @GeneratedValue
-    @Column(name="student_id")
-    private Long id;
-
     @Embedded
     private Address address;
-
     private int pay;
     private int mileage;
     @Enumerated(EnumType.STRING)
@@ -39,9 +35,6 @@ public class Student extends Member {
 
     @OneToMany(mappedBy = "student")
     private List<OrderBase> orderBases = new ArrayList<>();
-
-    protected Student() {
-    }
 
     public Student(int age, String name, int password, String loginId, Address address, Grade grade,Parent parent) {
         super(age, name, password, loginId);

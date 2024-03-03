@@ -5,6 +5,7 @@ import com.example.demo.domain.member.Student;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,16 +14,8 @@ import static jakarta.persistence.FetchType.LAZY;
 
 @Entity
 @Getter
+@NoArgsConstructor
 public class Lecture extends Item {
-    @Id
-    @GeneratedValue
-    @Column(name="lecture_id")
-    private Long id;
-
-
-    private int price;
-
-    private String name;
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "lecturer_id")
@@ -31,12 +24,9 @@ public class Lecture extends Item {
     @OneToMany(mappedBy = "lecture")
     private List<Book> books = new ArrayList<>();
 
-    protected Lecture() {
-    }
-
-    public Lecture(int price, String name, Lecturer lecturer) {
-        this.price = price;
-        this.name = name;
+    public Lecture(int price, String name, Lecturer lecturer, List<Book> books) {
+        super(price, name);
         this.lecturer = lecturer;
+        this.books = books;
     }
 }
