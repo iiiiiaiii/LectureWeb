@@ -1,6 +1,7 @@
 package com.example.demo.domain.item;
 
 import com.example.demo.domain.exception.NotEnoughException;
+import com.example.demo.domain.member.Lecturer;
 import com.example.demo.domain.member.Student;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -16,6 +17,8 @@ public class Book extends Item {
     private Long id;
 
     private int stockQuantity;
+    private String author;
+    private String isbn;
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name="lecture_id")
@@ -35,9 +38,12 @@ public class Book extends Item {
     protected Book() {
     }
 
-    public Book(int stockQuantity, Lecture lecture) {
+    public Book(int price, Lecture lecture, String name, int stockQuantity, String author, String isbn) {
+        super(price, name);
         this.stockQuantity = stockQuantity;
         this.lecture = lecture;
+        this.author = author;
+        this.isbn = isbn;
     }
 
     public void setStockQuantity(int stockQuantity) {

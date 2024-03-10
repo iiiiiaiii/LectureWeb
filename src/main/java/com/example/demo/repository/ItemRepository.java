@@ -28,6 +28,12 @@ public class ItemRepository {
         return em.find(entityClass, id);
     }
 
+    public <T> T findByName(Class<T> entityClass, String name) {
+        return em.createQuery("select m from " + entityClass.getSimpleName() + " m where m.name = :name",
+                        entityClass)
+                .setParameter("name", name)
+                .getSingleResult();
+    }
     public void delete(Item item) {
         em.remove(item);
     }

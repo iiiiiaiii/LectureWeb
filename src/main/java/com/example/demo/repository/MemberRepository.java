@@ -2,6 +2,7 @@ package com.example.demo.repository;
 
 import com.example.demo.domain.member.Member;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.NoResultException;
 import jakarta.persistence.PersistenceContext;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -18,7 +19,19 @@ public class MemberRepository {
     }
 
     public <T> T findOne(Class<T> entityClass, Long id) {
+
         return em.find(entityClass, id);
+    }
+
+    public <T> T findByNameOne(Class<T> entityClass, String name) {
+        try {
+            return em.createQuery("select m from " + entityClass.getSimpleName() + " m where m.name = :name",
+                            entityClass)
+                    .setParameter("name", name)
+                    .getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        }
     }
 
 

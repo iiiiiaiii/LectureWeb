@@ -21,8 +21,12 @@ public class Parent extends Member{
     protected Parent() {
     }
 
-    public Parent(int age, String name, int password, String loginId, Student student) {
+    public Parent(int age, String name, String password, String loginId, Student student) {
         super(age, name, password, loginId);
         this.student = student;
+    }
+
+    public void addChild(Student student) {
+
     }
 }

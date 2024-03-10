@@ -1,6 +1,6 @@
 package com.example.demo.domain.member;
 
-import com.example.demo.domain.aClass;
+import com.example.demo.domain.myClass;
 import com.example.demo.domain.item.Lecture;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -20,14 +20,14 @@ public class Lecturer extends Member {
     private List<Lecture> lectures = new ArrayList<>();
 
     @Enumerated(EnumType.STRING)
-    private aClass aClass;
+    private myClass myClass;
 
     protected Lecturer() {
     }
 
-    public Lecturer(int age, String name, int password, String loginId,aClass aClass) {
+    public Lecturer(int age, String name, String password, String loginId, myClass myClass) {
         super(age, name, password, loginId);
-        this.aClass = aClass;
+        this.myClass = myClass;
     }
 
 }

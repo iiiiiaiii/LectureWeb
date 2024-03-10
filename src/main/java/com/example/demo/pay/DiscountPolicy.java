@@ -1,4 +1,4 @@
-package com.example.demo.domain.discount;
+package com.example.demo.pay;
 
 import com.example.demo.domain.member.Student;
 

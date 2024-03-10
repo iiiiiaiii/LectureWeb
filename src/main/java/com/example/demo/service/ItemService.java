@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -39,6 +41,22 @@ public class ItemService {
     public void updateQuantity(Long bookId, int quantity) {
         Book book = itemRepository.findOne(Book.class, bookId);
         book.setStockQuantity(quantity);
+    }
+
+    public List<?> findAll(Class<?> entityClass) {
+        return itemRepository.findAll(entityClass);
+    }
+
+    public Lecture findByIdLecture(Long id) {
+        return itemRepository.findOne(Lecture.class, id);
+    }
+
+    public Book findByIdBook(Long id) {
+        return itemRepository.findOne(Book.class, id);
+    }
+
+    public <T>T findByName(Class<T> entityClass,String name) {
+        return itemRepository.findByName(entityClass,name);
     }
 
 

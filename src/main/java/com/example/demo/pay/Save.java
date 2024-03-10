@@ -1,4 +1,4 @@
-package com.example.demo.domain.discount;
+package com.example.demo.pay;
 
 import com.example.demo.domain.member.Grade;
 import com.example.demo.domain.member.Student;
@@ -13,7 +13,7 @@ public abstract class Save {
         gradeSet(student);
     }
 
-    private void gradeSet(Student student) {
+    public static void gradeSet(Student student) {
         if(student.getGrade()== Grade.골드) return;
         if(student.getPay()<100000) student.setGrade(Grade.일반);
         else if(student.getPay()<500000) student.setGrade(Grade.실버);

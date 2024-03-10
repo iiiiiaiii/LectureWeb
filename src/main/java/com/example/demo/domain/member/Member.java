@@ -1,26 +1,24 @@
 package com.example.demo.domain.member;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Getter;
 
 @Getter
+@MappedSuperclass
 public abstract class Member {
     private int age;
     private String name;
-    private int password;
+    private String password;
     private String LoginId;
 
     protected Member() {
     }
 
-    public Member(int age, String name, int password, String loginId) {
+    public Member(int age, String name, String password, String loginId) {
         this.age = age;
         this.name = name;
         this.password = password;
-        LoginId = loginId;
+        this.LoginId = loginId;
     }
 
     public void setAge(int age) {
@@ -31,7 +29,7 @@ public abstract class Member {
         this.name = name;
     }
 
-    public void setPassword(int password) {
+    public void setPassword(String password) {
         this.password = password;
     }
 

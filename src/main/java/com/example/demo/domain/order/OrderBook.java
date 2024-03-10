@@ -25,15 +25,19 @@ public class OrderBook {
     @JoinColumn(name = "order_id")
     private OrderBase orderBase;
 
-    int count;
-    int price;
+    private int count;
+    private int price;
 
-    static OrderBook createOrderBook(Book book, int count, int orderPrice) {
+    public static OrderBook createOrderBook(Book book, int count, int orderPrice) {
         OrderBook orderBook = new OrderBook();
         orderBook.count=count;
         orderBook.book=book;
         orderBook.price = orderPrice;
         return orderBook;
+    }
+
+    public void cancel() {
+        getBook().addStock(count);
     }
 
 

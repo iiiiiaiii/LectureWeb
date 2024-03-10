@@ -27,9 +27,6 @@ public class Student extends Member {
     @Enumerated(EnumType.STRING)
     private Grade grade;
 
-    @OneToOne(mappedBy = "student")
-    private Parent parent;
-
     @OneToMany
     private List<Lecture> lectures = new ArrayList<>();
 
@@ -43,11 +40,10 @@ public class Student extends Member {
     protected Student() {
     }
 
-    public Student(int age, String name, int password, String loginId, Address address, Grade grade,Parent parent) {
+    public Student(int age, String name, String password, String loginId, Address address, Grade grade) {
         super(age, name, password, loginId);
         this.address = address;
         this.grade = grade;
-        this.parent=parent;
         this.pay=0;
     }
 

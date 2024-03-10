@@ -2,9 +2,7 @@ package com.example.demo.service;
 
 import com.example.demo.domain.member.Member;
 import com.example.demo.repository.MemberRepository;
-import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,12 +12,26 @@ import java.util.List;
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class MemberService {
-    @Autowired
+
     private final MemberRepository memberRepository;
 
-    public void save(Member member) {
+    @Transactional
+    public void join(Member member) {
         memberRepository.save(member);
     }
+
+
+    private void validateDuplicateMember(Class<?> entityClass,Member member) {
+        List<?> findMember = memberRepository.findByName(entityClass, member.getName());
+        if (!findMember.isEmpty()) {
+            throw new IllegalStateException("이미 존재하는 회원");
+        }
+    }
+
+    public <T> T findByNameOne(Class<T> entityClass, String name) {
+        return memberRepository.findByNameOne(entityClass, name);
+    }
+
 
     public <T> T findOne(Class<T> entityClass, Long id) {
         return memberRepository.findOne(entityClass, id);
@@ -29,10 +41,12 @@ public class MemberService {
         return memberRepository.findAll(entityClass);
     }
 
+    @Transactional
     public void deleteMember(Class<?> entityClass,Long id) {
         memberRepository.delete(entityClass,id);
     }
 
+   @Transactional
     public void updateMember(Class<?> entityClass,Long id, String loginId, String name, int age, int password) {
         memberRepository.findOne(entityClass, id);
     }
