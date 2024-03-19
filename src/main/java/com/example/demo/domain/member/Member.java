@@ -5,7 +5,11 @@ import lombok.Getter;
 
 @Getter
 @MappedSuperclass
-public abstract class Member {
+public class Member {
+
+    @GeneratedValue
+    @Id
+    private Long Id;
     private int age;
     private String name;
     private String password;
