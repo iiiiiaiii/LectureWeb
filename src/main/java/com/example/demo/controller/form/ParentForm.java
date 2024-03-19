@@ -14,6 +14,6 @@ import lombok.Setter;
 
 public class ParentForm extends MemberForm{
     @NotEmpty(message = "자녀 입력은 필수 입니다")
-    private Long childId;
+    private String childId;
 
 }

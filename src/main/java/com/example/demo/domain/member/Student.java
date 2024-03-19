@@ -16,7 +16,6 @@ public class Student extends Member {
 
     @Id
     @GeneratedValue
-    @Column(name="student_id")
     private Long id;
 
     @Embedded

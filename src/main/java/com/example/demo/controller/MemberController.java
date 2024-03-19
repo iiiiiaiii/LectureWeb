@@ -59,7 +59,7 @@ public class MemberController {
         if (result.hasErrors()) {
             return "members/createPrentForm";
         }
-        Parent parent = new Parent(form.getAge(), form.getName(), form.getPassword(), form.getLoginId(),memberService.findOne(Student.class,form.getChildId()));
+        Parent parent = new Parent(form.getAge(), form.getName(), form.getPassword(), form.getLoginId(),form.getChildId());
         memberService.join(parent);
         return "redirect:/";
     }

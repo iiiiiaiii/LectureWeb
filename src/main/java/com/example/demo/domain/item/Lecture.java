@@ -1,6 +1,7 @@
 package com.example.demo.domain.item;
 
 import com.example.demo.domain.member.Lecturer;
+import com.example.demo.domain.member.Member;
 import com.example.demo.domain.member.Student;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
@@ -18,6 +19,7 @@ public class Lecture extends Item {
     @GeneratedValue
     @Column(name="lecture_id")
     private Long id;
+
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "lecturer_id")
     private Lecturer lecturer;

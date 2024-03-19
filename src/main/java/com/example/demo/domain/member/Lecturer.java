@@ -11,10 +11,11 @@ import java.util.List;
 @Entity
 @Getter
 public class Lecturer extends Member {
+
     @Id
     @GeneratedValue
     @Column(name="lecturer_id")
-    private Long id;
+    private Long lecturerId;
 
     @OneToMany(mappedBy = "lecturer")
     private List<Lecture> lectures = new ArrayList<>();
