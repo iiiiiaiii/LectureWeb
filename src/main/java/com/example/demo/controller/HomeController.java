@@ -9,8 +9,24 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class HomeController {
 
     @RequestMapping("/")
-    public String home(){
+    public String home() {
         log.info("home controller");
         return "home";
     }
+
+    @RequestMapping("/studentHome")
+    public String SHome() {
+        return "studentHome";
+    }
+
+    @RequestMapping("/parentHome")
+    public String PHome() {
+        return "parentHome";
+    }
+
+    @RequestMapping("/lecturerHome")
+    public String LHome() {
+        return "lecturerHome";
+    }
+
 }

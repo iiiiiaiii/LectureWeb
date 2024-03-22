@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Repository
@@ -21,6 +22,18 @@ public class MemberRepository {
     public <T> T findOne(Class<T> entityClass, Long id) {
 
         return em.find(entityClass, id);
+    }
+
+    public <T> Optional<T> findByLoginId(Class<T> entityClass, String loginId) {
+        try {
+            T result = em.createQuery("select m from " + entityClass.getSimpleName() + " m where m.loginId = :loginId", entityClass)
+                    .setParameter("loginId", loginId)
+                    .getSingleResult();
+            return Optional.of(result);
+        } catch (NoResultException e) {
+            System.out.println("e = " + e);
+            return Optional.empty();
+        }
     }
 
     public <T> T findByNameOne(Class<T> entityClass, String name) {

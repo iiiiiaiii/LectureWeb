@@ -3,6 +3,7 @@ package com.example.demo.domain.member;
 import com.example.demo.domain.myClass;
 import com.example.demo.domain.item.Lecture;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.Getter;
 
 import java.util.ArrayList;

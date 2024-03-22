@@ -6,7 +6,6 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-
 public abstract class MemberForm {
     @NotEmpty(message = "회원 이름은 필수 입니다")
     private String name;

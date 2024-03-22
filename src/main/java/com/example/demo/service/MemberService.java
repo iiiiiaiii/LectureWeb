@@ -1,12 +1,14 @@
 package com.example.demo.service;
 
 import com.example.demo.domain.member.Member;
+import com.example.demo.domain.member.Student;
 import com.example.demo.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service //컴포넌트스캔대상, 자동으로 빈등록
 @Transactional(readOnly = true)
@@ -21,12 +23,15 @@ public class MemberService {
     }
 
 
-    private void validateDuplicateMember(Class<?> entityClass,Member member) {
-        List<?> findMember = memberRepository.findByName(entityClass, member.getName());
-        if (!findMember.isEmpty()) {
-            throw new IllegalStateException("이미 존재하는 회원");
-        }
+    public boolean validateDuplicateMember(Class<?> entityClass,String memberId) {
+        Optional<?> findId = Optional.ofNullable(findId(entityClass, memberId));
+        return findId.isEmpty();
     }
+
+    public  <T> Optional<T> findId(Class<T> entityClass, String memberId) {
+        return memberRepository.findByLoginId(entityClass, memberId);
+    }
+
 
     public <T> T findByNameOne(Class<T> entityClass, String name) {
         return memberRepository.findByNameOne(entityClass, name);

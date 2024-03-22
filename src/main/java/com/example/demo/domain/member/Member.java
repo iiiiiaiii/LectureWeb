@@ -9,7 +9,8 @@ public abstract class Member {
     private int age;
     private String name;
     private String password;
-    private String LoginId;
+    @Column(unique = true)
+    private String loginId;
 
     protected Member() {
     }
@@ -18,7 +19,7 @@ public abstract class Member {
         this.age = age;
         this.name = name;
         this.password = password;
-        this.LoginId = loginId;
+        this.loginId = loginId;
     }
 
     public void setAge(int age) {
@@ -34,6 +35,6 @@ public abstract class Member {
     }
 
     public void setLoginId(String loginId) {
-        LoginId = loginId;
+        loginId = loginId;
     }
 }
