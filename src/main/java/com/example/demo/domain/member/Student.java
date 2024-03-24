@@ -37,7 +37,7 @@ public class Student extends Member {
     @OneToMany(mappedBy = "student")
     private List<OrderBase> orderBases = new ArrayList<>();
 
-    protected Student() {
+    public Student() {
     }
 
     public Student(int age, String name, String password, String loginId, Address address, Grade grade) {

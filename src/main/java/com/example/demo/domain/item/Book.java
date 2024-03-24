@@ -24,6 +24,10 @@ public class Book extends Item {
     @JoinColumn(name="lecture_id")
     private Lecture lecture;
 
+    @ManyToOne(fetch = LAZY)
+    @JoinColumn(name="lecturer_id")
+    private Lecturer lecturer;
+
     public void addStock(int quantity) {
         this.stockQuantity += quantity;
     }

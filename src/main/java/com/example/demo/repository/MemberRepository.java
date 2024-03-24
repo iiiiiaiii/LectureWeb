@@ -24,6 +24,17 @@ public class MemberRepository {
         return em.find(entityClass, id);
     }
 
+    public Optional<? extends Member> findByLoginIdV2(Class<?> entityClass,String loginId) {
+        try {
+            Member member = (Member) em.createQuery("select m from " + entityClass.getSimpleName() + " m where m.loginId = :loginId", entityClass)
+                    .setParameter("loginId", loginId)
+                    .getSingleResult();
+            return Optional.of(member);
+        } catch (NoResultException e) {
+            return Optional.empty();
+        }
+    }
+
     public <T> Optional<T> findByLoginId(Class<T> entityClass, String loginId) {
         try {
             T result = em.createQuery("select m from " + entityClass.getSimpleName() + " m where m.loginId = :loginId", entityClass)
@@ -57,6 +68,11 @@ public class MemberRepository {
 
     public List<?> findAll(Class<?> entityClass) {
         return em.createQuery("select i from " + entityClass.getSimpleName() + " i", entityClass)
+                .getResultList();
+    }
+
+    public List<? extends Member> findAllMember() {
+        return em.createQuery("SELECT m FROM Member m WHERE TYPE(m) != Member", Member.class)
                 .getResultList();
     }
 

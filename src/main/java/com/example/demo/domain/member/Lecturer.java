@@ -1,5 +1,6 @@
 package com.example.demo.domain.member;
 
+import com.example.demo.domain.item.Book;
 import com.example.demo.domain.myClass;
 import com.example.demo.domain.item.Lecture;
 import jakarta.persistence.*;
@@ -19,6 +20,9 @@ public class Lecturer extends Member {
 
     @OneToMany(mappedBy = "lecturer")
     private List<Lecture> lectures = new ArrayList<>();
+
+    @OneToMany(mappedBy = "lecturer")
+    private List<Book> books = new ArrayList<>();
 
     @Enumerated(EnumType.STRING)
     private myClass myClass;

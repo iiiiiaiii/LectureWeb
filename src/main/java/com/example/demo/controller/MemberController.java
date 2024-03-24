@@ -30,6 +30,7 @@ public class MemberController {
     private final MemberService memberService;
 
 
+    //student
     @GetMapping("/members/new")
     public String FormList() {
         return "members/createMemberForm";
@@ -58,19 +59,24 @@ public class MemberController {
         return "redirect:/";
     }
 
+    //parent
     @GetMapping("/members/newParent")
     public String newParent(Model model) {
         model.addAttribute("parentForm",new ParentForm());
         return "members/createParentForm";
     }
     @PostMapping("/members/newParent")
-    public String createParent(@Valid ParentForm form, BindingResult result
-    ) {
+    public String createParent(@Valid ParentForm form, BindingResult result) {
         if (result.hasErrors()) {
             return "members/createParentForm";
 
         }
         Optional<Student> findStudent = memberService.findId(Student.class, form.getChildId());
+        if(findStudent.isEmpty()){
+            result.reject("childIdError", "존재하지 않는 자녀 ID입니다.");
+            return "members/createParentForm";
+        }
+
         Student student = findStudent.get();
 
         Parent parent = new Parent(form.getAge(), form.getName(), form.getPassword(), form.getLoginId(), student);
@@ -80,15 +86,13 @@ public class MemberController {
             result.reject("IdError", "이미 존재하는 Id입니다");
             return "members/createParentForm";
         }
-        if(findStudent.isEmpty()){
-            result.reject("childIdError", "존재하지 않는 자녀 ID입니다.");
-            return "members/createParentForm";
-        }
+
 
         memberService.join(parent);
         return "redirect:/";
     }
 
+    //lecturer
     @GetMapping("/members/newLecturer")
     public String newLecturer(Model model) {
         model.addAttribute("lecturerForm",new LecturerForm());
@@ -96,12 +100,19 @@ public class MemberController {
     }
 
     @PostMapping("/members/newLecturer")
-    public String createLecturer(@Valid Lecturer form, BindingResult result) {
+    public String createLecturer(@Valid LecturerForm form, BindingResult result) {
         if (result.hasErrors()) {
             return "members/createLecturerForm";
         }
         myClass subject = myClass.valueOf(String.valueOf(form.getMyClass()));
         Lecturer lecturer = new Lecturer(form.getAge(), form.getName(), form.getPassword(), form.getLoginId(), subject);
+
+        if (form.getMyClass() == null) {
+            result.reject("error", "과목을 선택하세요");
+            return "members/createLecturerForm";
+        }
+
+
 
         Optional<Lecturer> findId = memberService.findId(Lecturer.class, form.getLoginId());
         if (findId.isPresent()) {

@@ -52,8 +52,14 @@ public class MemberService {
     }
 
    @Transactional
-    public void updateMember(Class<?> entityClass,Long id, String loginId, String name, int age, int password) {
-        memberRepository.findOne(entityClass, id);
+    public void updateMember(Class<?> entityClass, String loginId,String name) {
+       Optional<? extends Member> findId = memberRepository.findByLoginIdV2(entityClass, loginId);
+       Member member = findId.get();
+       member.setName(name);
+   }
+
+    public List<? extends Member> findAllMember() {
+        return memberRepository.findAllMember();
     }
 
 

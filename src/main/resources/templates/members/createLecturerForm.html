@@ -48,13 +48,12 @@
             <p th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Incorrect date</p>
 
         </div>
-
         <div class="form-group">
             <label for="myClass">과목</label>
-            <select id="myClass" name="myClass" class="form-control" th:field="*{myClass}">
+            <select id="myClass" name="myClass" class="form-control">
                 <option value="">과목을 선택하세요</option>
-                <option th:each="subject : ${T(com.example.demo.domain.myClass).values()}"
-                        th:value="${subject}" th:text="${subject}"></option>
+                <option th:each="myClass : ${T(com.example.demo.domain.myClass).values()}"
+                        th:value="${myClass}" th:text="${myClass.name()}"></option>
             </select>
             <p th:if="${#fields.hasErrors('myClass')}" class="text-danger" th:errors="*{myClass}"></p>
         </div>

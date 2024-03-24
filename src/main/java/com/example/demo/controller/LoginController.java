@@ -57,7 +57,7 @@ public class LoginController {
 
         HttpSession session = request.getSession();
         session.setAttribute(SessionConst.LOGIN_MEMBER, loginMember);
-        String redirectURL = selectedClass + "Home";
+        String redirectURL = loginMember.getLoginId()+"/" +selectedClass +"Home";
         return "redirect:/" + redirectURL;
     }
 
