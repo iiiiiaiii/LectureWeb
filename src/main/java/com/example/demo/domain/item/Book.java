@@ -53,4 +53,8 @@ public class Book extends Item {
     public void setStockQuantity(int stockQuantity) {
         this.stockQuantity = stockQuantity;
     }
+
+    public void setLecturer(Lecturer lecturer) {
+        this.lecturer = lecturer;
+    }
 }

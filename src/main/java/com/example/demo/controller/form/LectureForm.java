@@ -8,10 +8,8 @@ import lombok.Data;
 @Data
 
 public class LectureForm {
-    @NotEmpty(message = "책 이름은 필수입니다")
-    private String name;
     @NotEmpty(message = "강의 이름을 입력하세요")
-    private String lecturerName;
+    private String lectureName;
     @Positive(message = "가격을 입력하세요")
     private int price;
 

@@ -35,4 +35,8 @@ public class Lecturer extends Member {
         this.myClass = myClass;
     }
 
+    public void addBook(Book book) {
+        books.add(book);
+        book.setLecturer(this);
+    }
 }

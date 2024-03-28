@@ -13,6 +13,7 @@
                 <th>Name</th>
                 <th>Lecture</th>
                 <th>Price</th>
+                <th>Quantity</th>
             </tr>
             </thead>
             <tbody>
@@ -20,7 +21,8 @@
                 <td th:text="${book.id}"></td>
                 <td th:text="${book.name}"></td>
                 <td th:text="${book.lecture.name}"></td>
-                <td th:number=$"{book.price}"></td>
+                <td th:text="${book.price}"></td>
+                <td th:text="${book.stockQuantity}"></td>
             </tr>
             </tbody>
         </table>

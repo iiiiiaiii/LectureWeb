@@ -50,7 +50,7 @@ public class MemberApiController {
             @PathVariable("id") String id,
             @RequestBody @Valid UpdateMemberRequest request
     ) {
-        memberService.updateMember(entityClass, id, request.getName());
+        memberService.updateMemberName(entityClass, id, request.getName());
         Optional<?> findId = memberService.findId(entityClass, id);
         Object member = findId.get();
         Member findMember = (Member) member;

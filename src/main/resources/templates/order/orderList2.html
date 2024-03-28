@@ -1,0 +1,59 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header"/>
+<body>
+
+<div class="container">
+
+    <div th:replace="fragments/bodyHeader :: bodyHeader"/>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>책이름</th>
+            <th>강의이름</th>
+            <th>강사이름</th>
+            <th>ISBN</th>
+            <th>구매시간</th>
+            <th>구매 갯수</th>
+            <th>저자</th>
+            <th>주문상태</th>
+            <th>배송상태</th>
+
+
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="item : ${orderBookDTOS}">
+            <td th:text="${item.bookName}"></td>
+            <td th:text="${item.lectureName}"></td>
+            <td th:text="${item.lecturerName}"></td>
+            <td th:text="${item.ISBN}"></td>
+            <td th:text="${item.orderDate}"></td>
+            <td th:text="${item.count}"></td>
+            <td th:text="${item.author}"></td>
+            <td th:text="${item.orderStatus}"></td>
+            <td th:text="${item.deliveryStatus}"></td>
+
+
+        </tr>
+
+        </tbody>
+    </table>
+</div>
+
+<div th:replace="fragments/footer :: footer"/>
+
+</div> <!-- /container -->
+
+</body>
+<script>
+    function cancel(id) {
+        var form = document.createElement("form");
+        form.setAttribute("method", "post");
+        form.setAttribute("action", "/orders/" + id + "/cancel");
+        document.body.appendChild(form);
+        form.submit();
+    }
+</script>
+</html>

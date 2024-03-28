@@ -1,5 +1,7 @@
 package com.example.demo.service;
 
+import com.example.demo.domain.item.Book;
+import com.example.demo.domain.member.Lecturer;
 import com.example.demo.domain.member.Member;
 import com.example.demo.domain.member.Student;
 import com.example.demo.repository.MemberRepository;
@@ -51,16 +53,30 @@ public class MemberService {
         memberRepository.delete(entityClass,id);
     }
 
-   @Transactional
-    public void updateMember(Class<?> entityClass, String loginId,String name) {
-       Optional<? extends Member> findId = memberRepository.findByLoginIdV2(entityClass, loginId);
-       Member member = findId.get();
-       member.setName(name);
-   }
-
     public List<? extends Member> findAllMember() {
         return memberRepository.findAllMember();
     }
 
+
+    @Transactional
+    public void updateMemberBook(Class<?> entityClass, String id, Book book) {
+        if (entityClass == Student.class) {
+
+            Optional<Student> findId = memberRepository.findByLoginId(Student.class, id);
+            Student student = findId.get();
+            student.getBooks().add(book);
+
+        } else {
+            Optional<Lecturer> findId = memberRepository.findByLoginId(Lecturer.class, id);
+            Lecturer lecturer = findId.get();
+            lecturer.getBooks().add(book);
+        }
+    }
+    @Transactional
+    public void updateMemberName(Class<?> entityClass, String loginId,String name) {
+        Optional<? extends Member> findId = memberRepository.findByLoginIdV2(entityClass, loginId);
+        Member member = findId.get();
+        member.setName(name);
+    }
 
 }

@@ -31,8 +31,8 @@ public class ItemService {
     }
 
     @Transactional
-    public void updateItem(int price, String name,Long ItemId) {
-        Item findItem = itemRepository.findOne(Item.class, ItemId);
+    public void updateItem(int price, String name,String bookName) {
+        Item findItem = itemRepository.findByName(Item.class, bookName);
         findItem.setPrice(price);
         findItem.setName(name);
     }
@@ -43,7 +43,7 @@ public class ItemService {
         book.setStockQuantity(quantity);
     }
 
-    public List<?> findAll(Class<?> entityClass) {
+    public <T> List<T> findAll(Class<T> entityClass) {
         return itemRepository.findAll(entityClass);
     }
 

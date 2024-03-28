@@ -10,6 +10,8 @@ import lombok.Getter;
 import java.util.ArrayList;
 import java.util.List;
 
+import static jakarta.persistence.FetchType.LAZY;
+
 @Entity
 @Getter
 public class Student extends Member {
@@ -27,10 +29,12 @@ public class Student extends Member {
     @Enumerated(EnumType.STRING)
     private Grade grade;
 
-    @OneToMany
+    @OneToMany(fetch = LAZY)
+    @JoinColumn(name="lectures")
     private List<Lecture> lectures = new ArrayList<>();
 
-    @OneToMany
+    @OneToMany(fetch = LAZY)
+    @JoinColumn(name="books")
     private List<Book> books = new ArrayList<>();
 
 
@@ -40,10 +44,10 @@ public class Student extends Member {
     public Student() {
     }
 
-    public Student(int age, String name, String password, String loginId, Address address, Grade grade) {
+    public Student(int age, String name, String password, String loginId, Address address) {
         super(age, name, password, loginId);
         this.address = address;
-        this.grade = grade;
+        this.grade = Grade.일반;
         this.pay=0;
     }
 

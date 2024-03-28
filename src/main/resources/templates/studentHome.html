@@ -26,12 +26,15 @@
         <p class="lead">강의</p>
         <p>
             <a class="btn btn-lg btn-dark" href="/lecturelist">전체 강의</a>
+            <a class="btn btn-lg btn-dark" href="/booklist">전체 책</a>
+
             <a class="btn btn-lg btn-dark" th:href="@{/{studentId}/studentHome/lecturelist(studentId=${studentId})}">수강 강의</a>
         </p>
         <p class="lead">주문 기능</p>
         <p>
-            <a class="btn btn-lg btn-info" href="/booklist">책 목록</a>
-            <a class="btn btn-lg btn-info" th:href="@{/{studentId}/studentHome/booklist/buy(studentId=${studentId})}">구입한 책</a>
+            <a class="btn btn-lg btn-info" th:href="@{/{studentId}/studentHome/orderBook(studentId=${studentId})}">책 주문</a>
+            <a class="btn btn-lg btn-info" th:href="@{/{studentId}/studentHome/orderLecture(studentId=${studentId})}">수강 신청</a>
+            <a class="btn btn-lg btn-info" th:href="@{/{studentId}/studentHome/booklist(studentId=${studentId})}">구입한 책</a>
             <a class="btn btn-lg btn-info" th:href="@{/{studentId}/studentHome/orderStatus(studentId=${studentId})}">배송조회</a>
 
         </p>

@@ -2,6 +2,7 @@ package com.example.demo.service;
 
 import com.example.demo.domain.delivery.Delivery;
 import com.example.demo.domain.delivery.DeliveryStatus;
+import com.example.demo.domain.item.Item;
 import com.example.demo.pay.DiscountPolicy;
 import com.example.demo.pay.PolicyGrade;
 import com.example.demo.domain.item.Book;
@@ -14,11 +15,13 @@ import com.example.demo.pay.Save;
 import com.example.demo.repository.ItemRepository;
 import com.example.demo.repository.MemberRepository;
 import com.example.demo.repository.OrderRepository;
+import com.example.demo.repository.OrderSearch;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional(readOnly = true)
@@ -30,9 +33,10 @@ public class OrderService {
     private final ItemRepository itemRepository;
 
     @Transactional
-    private Long orderBase(Long memberId, Long itemId, int count, Class<?> entityClass) {
-        Student findMember = memberRepository.findOne(Student.class, memberId);
-        Object findItem = itemRepository.findOne(entityClass, itemId);
+    public Long orderBase(String memberId, String itemName, int count, Class<? extends Item> entityClass) {
+        Optional<Student> byLoginId = memberRepository.findByLoginId(Student.class, memberId);
+        Student findMember = byLoginId.get();
+        Item findItem = itemRepository.findByName(entityClass, itemName);
         if (findItem.getClass() == Lecture.class) {
             Lecture findLecture = (Lecture) findItem;
             findMember.addLecture(findLecture);
@@ -50,6 +54,7 @@ public class OrderService {
         int price = discountSet(book.getPrice(), findMember);
         OrderBook orderBook = OrderBook.createOrderBook(book, count, price);
         OrderBase orderBase = OrderBase.createBook(findMember, delivery, orderBook);
+        findMember.getBooks().add(book);
         orderRepository.save(orderBase);
         return orderBase.getId();
     }
@@ -67,6 +72,12 @@ public class OrderService {
         }
         //주문 취소
         order.cancelBooks();
+    }
+
+    /**
+     * 주문검색*/
+    public List<OrderBase> findOrders(OrderSearch orderSearch) {
+        return orderRepository.findAllByString(orderSearch);
     }
 
 

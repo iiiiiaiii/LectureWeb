@@ -4,6 +4,7 @@ import com.example.demo.domain.item.Book;
 import com.example.demo.domain.item.Item;
 import com.example.demo.domain.item.Lecture;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.NoResultException;
 import jakarta.persistence.PersistenceContext;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -19,7 +20,7 @@ public class ItemRepository {
     public void save(Item item){
             em.persist(item);
     }
-    public List<?> findAll(Class<?> entityClass) {
+    public <T> List<T> findAll(Class<T> entityClass) {
         return em.createQuery("select i from " + entityClass.getSimpleName() + " i", entityClass)
                 .getResultList();
     }
@@ -29,10 +30,13 @@ public class ItemRepository {
     }
 
     public <T> T findByName(Class<T> entityClass, String name) {
-        return em.createQuery("select m from " + entityClass.getSimpleName() + " m where m.name = :name",
-                        entityClass)
-                .setParameter("name", name)
-                .getSingleResult();
+        try {
+            return em.createQuery("select m from " + entityClass.getSimpleName() + " m where m.name = :name", entityClass)
+                    .setParameter("name", name)
+                    .getSingleResult();
+        } catch (NoResultException ex) {
+            return null;
+        }
     }
     public void delete(Item item) {
         em.remove(item);

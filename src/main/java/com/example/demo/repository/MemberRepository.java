@@ -60,10 +60,10 @@ public class MemberRepository {
 
 
     public List<?> findByName(Class<?> entityClass,String name) {
-        return em.createQuery("select m from "+entityClass.getSimpleName() +" m where m.name = :name",
-                        entityClass)
+        List<?> resultList = em.createQuery("select m from " + entityClass.getSimpleName() + " m where m.name = :name", entityClass)
                 .setParameter("name", name)
                 .getResultList();
+        return resultList.isEmpty() ? null : resultList;
     }
 
     public List<?> findAll(Class<?> entityClass) {

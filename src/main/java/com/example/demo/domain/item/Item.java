@@ -8,6 +8,8 @@ import lombok.Getter;
 @MappedSuperclass
 public abstract class Item {
     private int price;
+
+    @Column(unique = true)
     private String name;
 
     public Item(int price, String name) {

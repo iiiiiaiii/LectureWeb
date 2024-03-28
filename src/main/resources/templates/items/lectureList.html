@@ -7,18 +7,21 @@
     <div th:replace="fragments/bodyHeader :: bodyHeader" />
     <div>
         <table class="table table-striped">
+
             <thead>
             <tr>
                 <th>ID</th>
                 <th>Name</th>
                 <th>Lecturer</th>
+                <th>Price</th>
             </tr>
             </thead>
             <tbody>
             <tr th:each="lecture : ${allLecture}">
                 <td th:text="${lecture.id}"></td>
                 <td th:text="${lecture.name}"></td>
-                <td th:text="${lecture.lecturer}"></td>
+                <td th:text="${lecture.lecturer.name}"></td>
+                <td th:text="${lecture.price}"></td>
             </tr>
             </tbody>
         </table>

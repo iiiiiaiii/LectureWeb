@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 import com.example.demo.controller.form.*;
 import com.example.demo.domain.Address;
+import com.example.demo.domain.item.Book;
 import com.example.demo.domain.member.Grade;
 import com.example.demo.domain.member.Lecturer;
 import com.example.demo.domain.member.Parent;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.List;
@@ -47,14 +49,15 @@ public class MemberController {
         if (result.hasErrors()) {
             return "members/createStudentForm";
         }
-        Address address = new Address(form.getCity(), form.getStreet(), form.getZipcode());
-        Student student = new Student(form.getAge(), form.getName(), form.getPassword(), form.getLoginId(), address, Grade.일반);
 
         Optional<Student> findId = memberService.findId(Student.class, form.getLoginId());
         if (findId.isPresent()) {
             result.reject("IdError", "이미 존재하는 Id입니다");
             return "members/createStudentForm";
         }
+
+        Address address = new Address(form.getCity(), form.getStreet(), form.getZipcode());
+        Student student = new Student(form.getAge(), form.getName(), form.getPassword(), form.getLoginId(), address);
         memberService.join(student);
         return "redirect:/";
     }
@@ -122,6 +125,7 @@ public class MemberController {
         memberService.join(lecturer);
         return "redirect:/";
     }
+
 
     @GetMapping("/members")
     public String memberList(Model model) {

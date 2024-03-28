@@ -27,7 +27,7 @@
             <a class="btn btn-lg btn-dark" href="/lecturelist">전체 강의</a>
         </p>
         <p>
-            <a class="btn btn-lg btn-info" href="/lecturelist/student">자녀 강의 목록</a>
+            <a class="btn btn-lg btn-info" th:href="@{/{parentId}/parentHome/lecturelist(parentId=${parentId})}">자녀 강의 목록</a>
         </p>
     </div>
 

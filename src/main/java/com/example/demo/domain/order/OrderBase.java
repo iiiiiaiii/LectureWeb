@@ -26,10 +26,10 @@ public class OrderBase {
     @Column(name="order_id")
     private Long id;
 
-    @OneToOne(mappedBy = "orderBase")
+    @OneToOne(mappedBy = "orderBase",cascade = CascadeType.ALL)
     private OrderLecture orderLecture;
 
-    @OneToMany(mappedBy = "orderBase")
+    @OneToMany(mappedBy = "orderBase",cascade = CascadeType.ALL)
     private List<OrderBook> orderBooks = new ArrayList<>();
 
     @ManyToOne(fetch = LAZY)

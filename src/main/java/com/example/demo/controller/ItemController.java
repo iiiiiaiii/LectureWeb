@@ -2,12 +2,10 @@ package com.example.demo.controller;
 
 import com.example.demo.controller.form.BookForm;
 import com.example.demo.controller.form.LectureForm;
-import com.example.demo.controller.form.LecturerForm;
-import com.example.demo.domain.Address;
 import com.example.demo.domain.item.Book;
 import com.example.demo.domain.item.Lecture;
-import com.example.demo.domain.member.Grade;
 import com.example.demo.domain.member.Lecturer;
+import com.example.demo.domain.member.Parent;
 import com.example.demo.domain.member.Student;
 import com.example.demo.service.ItemService;
 import com.example.demo.service.MemberService;
@@ -17,10 +15,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -57,38 +57,104 @@ public class ItemController {
         return "items/bookList";
     }
 
-    @GetMapping("/booklist/{lectureId}")
+    @GetMapping("/{lecturerId}/lecturerHome/booklist")
     public String myBooks(Model model,
-                          @PathVariable("lectureId") String Id) {
-        Optional<Lecturer> id = memberService.findId(Lecturer.class, Id);
+                          @PathVariable("lecturerId") String lecturerId) {
+        Optional<Lecturer> id = memberService.findId(Lecturer.class, lecturerId);
         Lecturer lecturer = id.get();
-        List<Book> allBooks = lecturer.getBooks();
-        model.addAttribute("allBooks", allBooks);
+        List<Book> allBook = lecturer.getBooks();
+        model.addAttribute("allBook",allBook );
         return "items/bookList";
+    }
+
+    //createItem
+
+    @GetMapping("/{lecturerId}/items/newBook")
+    public String createBookForm(
+            @PathVariable("lecturerId") String lecturerId,
+            Model model) {
+        model.addAttribute("bookForm", new BookForm());
+        return "items/createBookForm";
+
+    }
+
+    @PostMapping("/{lecturerId}/items/newBook")
+    public String createBook(
+            @PathVariable("lecturerId") String lecturerId,
+            @Valid @ModelAttribute BookForm bookForm,
+            BindingResult result,
+            Model model){
+
+        if (result.hasErrors()) {
+            return "items/createBookForm";
+        }
+
+
+
+        if (itemService.findByName(Book.class, bookForm.getName()) != null) {
+            result.reject("nameError", "중복된 이름입니다");
+            return "items/createBookForm";
+        }
+
+
+        Optional<Lecturer> id = memberService.findId(Lecturer.class, lecturerId);
+        Lecturer lecturer = id.orElse(null);
+
+        String lectureName = bookForm.getLectureName();
+
+
+        Lecture findLecture = itemService.findByName(Lecture.class, lectureName);
+
+        if (findLecture== null) {
+            result.reject("error","강의 이름을 확인해주세요");
+            return "items/createBookForm";
+        }
+
+
+        Book book = new Book(bookForm.getPrice(), findLecture, bookForm.getName(), bookForm.getStockQuantity(), bookForm.getAuthor(), bookForm.getIsbn());
+        assert lecturer != null;
+        lecturer.addBook(book);
+        itemService.save(book);
+        return "redirect:/"+lecturerId+"/lecturerHome";
     }
 
     @GetMapping("/{lecturerId}/items/newLecture")
     public String createLectureForm(
-            @PathVariable("lecturerId") String id,
+            @PathVariable("lecturerId") String lecturerId,
             Model model) {
-        model.addAttribute("LectureForm", new LectureForm());
-        model.addAttribute("lecturerId", id);
+        model.addAttribute("lectureForm", new LectureForm());
         return "items/createLectureForm";
     }
 
-    @PostMapping("/items/newLecture/{lecturerId}")
+    @PostMapping("/{lecturerId}/items/newLecture")
     public String createLecture(@Valid LectureForm lectureForm, BindingResult result
-            , @PathVariable("lecturerId") String id
-    ) {
+            , @PathVariable("lecturerId") String lecturerId) {
         if (result.hasErrors()) {
+            return "items/createLectureForm";
+        }
+        Optional<Lecturer> id = memberService.findId(Lecturer.class, lecturerId);
+        Lecturer lecturer = id.orElse(null);
+
+        if (lectureForm.getLectureName() == null) {
+            result.reject("noneLectureName","강의 이름을 작성해주세요");
+            return "items/createLectureForm";
+        }
+        if (itemService.findByName(Lecture.class, lectureForm.getLectureName()) != null) {
+            result.reject("duplicateError", "이미 있는 강의 이름입니다");
             return "items/createLectureForm";
         }
 
 
-        Lecture lecture = new Lecture(lectureForm.getPrice(), lectureForm.getName(), memberService.findByNameOne(Lecturer.class, lectureForm.getLecturerName()));
+
+        Lecture lecture = new Lecture(lectureForm.getPrice(), lectureForm.getLectureName(), lecturer);
+
+        assert lecturer != null;
+        lecturer.getLectures().add(lecture);
         itemService.save(lecture);
-        return "redirect:/";
+        return "redirect:/"+lecturerId+"/lecturerHome";
     }
+
+
 
     @GetMapping("/items")
     public String AllItems(Model model) {
@@ -111,8 +177,8 @@ public class ItemController {
                              @PathVariable("lectureId") String Id) {
         Optional<Lecturer> id = memberService.findId(Lecturer.class, Id);
         Lecturer lecturer = id.get();
-        List<Lecture> allLectures = lecturer.getLectures();
-        model.addAttribute("allLectures", allLectures);
+        List<Lecture> allLecture = lecturer.getLectures();
+        model.addAttribute("allLecture", allLecture);
         return "items/lectureList";
     }
 
@@ -121,8 +187,8 @@ public class ItemController {
                             @PathVariable("studentId") String Id) {
         Optional<Student> id = memberService.findId(Student.class, Id);
         Student student = id.get();
-        List<Lecture> allLectures = student.getLectures();
-        model.addAttribute("allLectures", allLectures);
+        List<Lecture> allLecture = student.getLectures();
+        model.addAttribute("allLecture", allLecture);
         return "items/lectureList";
     }
 
@@ -143,5 +209,17 @@ public class ItemController {
         List<Book> allBook = student.getBooks();
         model.addAttribute("allBook", allBook);
         return "items/bookList";
+    }
+
+
+    //parent
+    @GetMapping("/{parentId}/parentHome/lecturelist")
+    public String studentLecture(@PathVariable("parentId") String parentId,
+                                 Model model) {
+        Optional<Parent> id = memberService.findId(Parent.class, parentId);
+        Parent parent = id.get();
+        List<Lecture> allLecture = parent.getStudent().getLectures();
+        model.addAttribute("allLecture", allLecture);
+        return "items/lectureList";
     }
 }

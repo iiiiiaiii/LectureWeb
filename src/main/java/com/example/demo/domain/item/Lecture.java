@@ -22,7 +22,7 @@ public class Lecture extends Item {
     @JoinColumn(name = "lecturer_id")
     private Lecturer lecturer;
 
-    @OneToMany(mappedBy = "lecture")
+    @OneToMany(mappedBy = "lecture", cascade = CascadeType.ALL)
     private List<Book> books = new ArrayList<>();
 
     protected Lecture() {
